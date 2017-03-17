@@ -58,10 +58,9 @@ and then:
 
 ```sh
 $ sudo /usr/sbin/chroot /opt/cross-project/x86/sys-root
-(chroot) $ dhclient eth0 #to activate networking
 ```
 
-Use conda normally.
+Use conda normally when inside the chroot environment.
 
 
 [VirtualBox]: https://www.virtualbox.org

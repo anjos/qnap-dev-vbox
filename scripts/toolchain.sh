@@ -13,6 +13,8 @@ rm -f ${FNAME}
 
 echo "[>>] Preparing environment..."
 CHROOT=/opt/cross-project/x86/sys-root
+mkdir -pv ${CHROOT}/dev
+echo "/dev ${CHROOT}/dev none defaults,bind 0 0" >> /etc/fstab
 mkdir -pv ${CHROOT}/sys
 echo "/sys ${CHROOT}/sys none defaults,bind 0 0" >> /etc/fstab
 mkdir -pv ${CHROOT}/proc
@@ -21,6 +23,4 @@ mkdir -pv ${CHROOT}/tmp
 echo "/tmp ${CHROOT}/tmp none defaults,bind 0 0" >> /etc/fstab
 mkdir -pv ${CHROOT}/root
 echo "/root ${CHROOT}/root none defaults,bind 0 0" >> /etc/fstab
-
-echo -e "\n# Added by packer" >> /etc/bash.bashrc
-cat "export PATH=/opt/conda/bin:${PATH}" >> /etc/bash.bashrc
+echo "/etc/resolv.conf ${CHROOT}/etc/resolv.conf none defaults,bind 0 0" >> /etc/fstab

@@ -37,6 +37,9 @@ ${CONDA} update --yes -n root conda
 ${CONDA} install --yes -n root conda-build
 
 ${CONDA} clean --all --yes
+
+echo -e "\n# Added by packer" >> /etc/bash.bashrc
+echo "export PATH=/opt/conda/bin:${PATH}" >> /etc/bash.bashrc
 EOF
 
 echo "[>>] Cleaning-up..."
