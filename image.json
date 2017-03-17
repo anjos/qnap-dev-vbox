@@ -1,7 +1,7 @@
 {
   "variables": {
     "debian_version": "8.7.1",
-    "netinst_md5sum": "453312bf56fc45669fec5ebc0f025ac7",
+    "netinst_md5sum": "9a30b91264d5663bacb26bb808d1b84f",
     "username": "qnap",
     "build": "2017"
   },
