@@ -51,6 +51,19 @@ You may control a few things with the image generation step:
    get the last two digits right.
 
 
+### Using
+
+To build components for your QNAP NAS, enter inside the image, open a terminal,
+and then:
+
+```sh
+$ sudo /usr/sbin/chroot /opt/cross-project/x86/sys-root
+(chroot) $ dhclient eth0 #to activate networking
+```
+
+Use conda normally.
+
+
 [VirtualBox]: https://www.virtualbox.org
 [Packer]: https://www.packer.io
 [CoRD]: http://cord.sourceforge.net

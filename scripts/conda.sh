@@ -1,8 +1,6 @@
 #!/bin/bash
-BASEDIR=/opt/conda
-CONDA=${BASEDIR}/bin/conda
+
 MINICONDA=/tmp/miniconda.sh
-PYTHON_VERSION=3.5
 ARCH="Linux-x86"
 
 if [ ! -x ${MINICONDA} ]; then
@@ -12,10 +10,23 @@ if [ ! -x ${MINICONDA} ]; then
   chmod 755 ${MINICONDA}
 fi
 
+mount -a #make sure the bind mounts are there
+/usr/sbin/chroot /opt/cross-project/x86/sys-root /bin/bash -x <<'EOF'
+
+BASEDIR=/opt/conda
+CONDA=${BASEDIR}/bin/conda
+MINICONDA=/tmp/miniconda.sh
+
+dhclient eth0
+
 # Create root environment and add basic channels for conda
-if [ ! -x ${CONDA} ]; then
+if [ ! -e ${CONDA} ]; then
   echo "[>>] Creating root environment and setting basic options..."
   bash ${MINICONDA} -b -p ${BASEDIR}
+fi
+
+if [ ! -e ${HOME}/.condarc ]; then
+  touch ${HOME}/.condarc
   ${CONDA} config --set show_channel_urls True
   ${CONDA} config --add channels anjos
   ${CONDA} config --add channels defaults
@@ -23,7 +34,10 @@ fi
 
 echo "[>>] Updating conda in the root environment..."
 ${CONDA} update --yes -n root conda
+${CONDA} install --yes -n root conda-build
+
+${CONDA} clean --all --yes
+EOF
 
 echo "[>>] Cleaning-up..."
 rm -f ${MINICONDA}
-${CONDA} clean --all --yes

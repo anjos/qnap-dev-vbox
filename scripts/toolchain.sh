@@ -10,3 +10,17 @@ echo "[>>] Extracting toolchain \`${FNAME}\' from tarball..."
 tar xfz ${FNAME}
 echo "[>>] Removing tarball \`${FNAME}\'..."
 rm -f ${FNAME}
+
+echo "[>>] Preparing environment..."
+CHROOT=/opt/cross-project/x86/sys-root
+mkdir -pv ${CHROOT}/sys
+echo "/sys ${CHROOT}/sys none defaults,bind 0 0" >> /etc/fstab
+mkdir -pv ${CHROOT}/proc
+echo "/proc ${CHROOT}/proc none defaults,bind 0 0" >> /etc/fstab
+mkdir -pv ${CHROOT}/tmp
+echo "/tmp ${CHROOT}/tmp none defaults,bind 0 0" >> /etc/fstab
+mkdir -pv ${CHROOT}/root
+echo "/root ${CHROOT}/root none defaults,bind 0 0" >> /etc/fstab
+
+echo -e "\n# Added by packer" >> /etc/bash.bashrc
+cat "export PATH=/opt/conda/bin:${PATH}" >> /etc/bash.bashrc

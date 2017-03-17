@@ -62,8 +62,8 @@
         "scripts/networking.sh",
         "scripts/sudoers.sh",
         "scripts/vbaddguest.sh",
-        "scripts/conda.sh",
         "scripts/toolchain.sh",
+        "scripts/conda.sh",
         "scripts/cleanup.sh"
       ],
       "only": ["virtualbox-iso"]
