@@ -1,0 +1,110 @@
+#!/usr/bin/env sh
+# Andre Anjos <andre.dos.anjos@gmail.com>
+# Tue 03 Sep 2013 15:55:27 CEST
+
+# Understand how bashrc, bash_profile, profile and inputrc are used:
+#
+# 1. If you start bash from a graphical user interface, only bashrc will be
+# sourced.
+#
+# 2. If you login using your computer login terminal (not the graphical login
+# system) or through SSH, then only bash_profile will be executed. Normally, we
+# setup bash_profile so that it executes the contents of profile and then
+# bashrc, if the shell is supposed to be interactive.
+#
+# 3. The file inputrc is only read/executed by bash for interactive shells.
+
+# Interactive initialization file for bash (very specific)
+
+# Bash completion
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  fi
+fi
+
+# So we know when we are root
+pr='>>';
+col=cyan;
+if [ $UID = 0 ]; then
+  pr='##';
+  col=lightred;
+fi
+
+if [ -f ~/.dotfiles/bash_colors.sh ]; then
+	source ~/.dotfiles/bash_colors.sh;
+	PS1=`colourise $col "["`"\$(date +%k:%M)"`colourise $col "]"`" \W "`colourise $col "$pr"`" ";
+else
+	PS1="[\h-\$(date +%k:%M)] \W $pr "
+fi
+
+# Aliases for interactive shells
+alias 'h=history'
+alias 'm=less -R'
+alias ls='ls --color=auto -F -t -r -t'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ll -a'
+alias rm='rm -vi'
+alias cp='cp -vi'
+alias mv='mv -vi'
+alias chmod='chmod -c'
+alias chown='chown -c'
+alias chgrp='chgrp -c'
+alias dire='ls -alt'
+alias t='less'
+alias tn='less -N'
+alias more='less'
+alias grep='grep --color'
+alias ipy='ipython'
+alias xo='xdg-open'
+
+# Useful environment variables for interactive shells
+export EDITOR=vim;
+export VISUAL=vim;
+export PAGER=less;
+export LESS="-R";
+if [ -f ${HOME}/.dotfiles/lesspygments.sh ]; then
+  export LESSOPEN="|${HOME}/.dotfiles/lesspygments.sh %s";
+fi
+
+# Get off with CTRL-D
+set +o ignoreeof
+
+# Sets up the history
+export HISTFILE=${HOME}/.bash_history;
+export HISTSIZE=100000;
+
+# This is for python initialization
+export PYTHONSTARTUP=~/.dotfiles/python_profile.py
+
+# Adds conda to the search list
+if [ -d /opt/conda ]; then
+  export PATH=/opt/conda/bin:${PATH};
+fi
+
+# Adds my bin directory to the search list
+if [ -d ~/bin ]; then
+  export PATH=${HOME}/bin:${PATH};
+fi
+
+# Removes duplicates from PATH
+export PATH=`awk -F: '{for(i=1;i<=NF;i++){if(!($i in a)){a[$i];printf s$i;s=":"}}}'<<<$PATH`;
+
+# Removes '.' from PATH (for security)
+export PATH=`echo ${PATH} | awk -v RS=: -v ORS=: '/\./ {next} {print}' | sed 's/:*$//'`;
+
+# In case the shell is interactive, run the checks and setup bellow
+case "$-" in
+  *i*)
+      # Prints about gitconfig, if not set
+      if [ ! -f "${HOME}/.gitconfig" ]; then
+        echo '** To setup git, run once:'
+        echo 'git config --global user.name "Your Name"'
+        echo 'git config --global user.email your.email@example.com'
+        echo "** This message will disappear once you've done that";
+      fi
+      ;;
+esac

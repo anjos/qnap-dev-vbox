@@ -1,0 +1,5 @@
+*~
+*.sw*
+.DS_Store
+packer_cache/
+builds/
