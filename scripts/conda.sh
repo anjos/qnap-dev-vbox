@@ -1,7 +1,7 @@
 #!/bin/bash
 BASEDIR=/opt/conda
 CONDA=${BASEDIR}/bin/conda
-MINICONDA=${HOME}/Downloads/miniconda.sh
+MINICONDA=/tmp/miniconda.sh
 PYTHON_VERSION=3.5
 ARCH="Linux-x86"
 
@@ -25,5 +25,5 @@ echo "[>>] Updating conda in the root environment..."
 ${CONDA} update --yes -n root conda
 
 echo "[>>] Cleaning-up..."
-rm -rf ${MINICONDA}
+rm -f ${MINICONDA}
 ${CONDA} clean --all --yes
