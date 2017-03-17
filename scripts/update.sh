@@ -1,6 +1,6 @@
 #!/bin/bash
 apt-get update
-apt-get -y install curl facter git vim-nox nano gedit gedit-plugins
+apt-get -y install curl facter git vim-nox schroot
 
 # setup to auto-login with the single user we have
 apt-get -y install nodm
