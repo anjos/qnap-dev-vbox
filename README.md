@@ -1,8 +1,9 @@
 ## QNAP build image
 
 This repository contains instructions to build [VirtualBox][] images for
-building C/C++ packages for QNAP on x86 (QTS-4.2.x), automatically using
-[Packer][].
+developing C/C++ packages for QNAP on x86 (QTS-4.2.x), automatically using
+[Packer][]. The base system is a stock Debian 8.7.1 (32-bits) which contains a
+chroot environment with the [QNAP toolchain][].
 
 
 ### Installation
@@ -63,7 +64,15 @@ $ sudo /usr/sbin/chroot /opt/cross-project/x86/sys-root
 Use conda normally when inside the chroot environment.
 
 
+### Authentication
+
+There is only one user in this image, named `qnap` (password `qnap`). This user
+can sudo passwordlessly into `root` to execute priviledged commands (such as
+installing more packages).
+
+
 [VirtualBox]: https://www.virtualbox.org
 [Packer]: https://www.packer.io
 [CoRD]: http://cord.sourceforge.net
 [Microsoft Remote Desktop Connection]: https://itunes.apple.com/us/app/microsoft-remote-desktop/id715768417?mt=12#
+[QNAP Toolchain]: https://sourceforge.net/projects/qosgpl/files/QNAP%20NAS%20Tool%20Chains/cross-project-x86.u7-20111011.tar.gz

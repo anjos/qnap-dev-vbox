@@ -34,7 +34,7 @@ fi
 
 echo "[>>] Updating conda in the root environment..."
 ${CONDA} update --yes -n root conda
-${CONDA} install --yes -n root conda-build
+${CONDA} install --yes -n root conda-build anaconda-client
 
 ${CONDA} clean --all --yes
 
